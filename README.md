@@ -1,6 +1,6 @@
 # sli-counter
 
-<img src="docs/logo.svg" alt="sli-counter mark" width="88" height="88">
+<img src="docs/logo.svg" alt="sli-counter mark" width="96" height="96">
 
 **Maintain a {good,bad} file store and report the success ratio.**
 
@@ -11,6 +11,8 @@
 ![release 1.00](https://img.shields.io/github/v/release/theworker02/sli-counter?display_name=release)
 
 Package version **1.00** (`1.0.0`). Default branch is **`main`** — never `master`.
+
+**Docs:** [GitHub Pages](https://theworker02.github.io/sli-counter/) · **Source:** [`theworker02/sli-counter`](https://github.com/theworker02/sli-counter) · **Release 1.00:** [`v1.0.0`](https://github.com/theworker02/sli-counter/releases/tag/v1.0.0)
 
 ## Why it exists
 
