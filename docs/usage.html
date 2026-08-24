@@ -30,27 +30,68 @@
   <div class="wrap">
     <section>
       <h2>Synopsis</h2>
-      <pre><code>sli-counter &lt;good|bad|report&gt;</code></pre>
-      <div class="callout sans"><strong>Tip:</strong> <code>sli-counter --help</code> prints this text in the terminal. <code>sli-counter --version</code> prints <code>1.0.0</code>.</div>
+      <pre><code>sli-counter 1.00 (1.0.0)
+
+Usage:
+  sli-counter good [options]
+  sli-counter bad [options]
+  sli-counter report [options]
+  sli-counter reset [options]
+
+Maintain a {good,bad} store and report the success ratio.
+Default store: ./.sli-counter.json
+
+Subcommands:
+  good               Increment the success count
+  bad                Increment the failure count
+  report             Print good, bad, total, and ratio
+  reset              Set both counters back to 0
+
+Options:
+  -h, --help         Show this help and exit 0
+  -V, -v, --version  Print 1.0.0 and exit 0
+  --json             JSON output
+  --store &lt;path&gt;     Store file (relative to cwd unless absolute)
+  --slo &lt;ratio&gt;      With report: exit 1 when ratio is below this 0..1 value
+                     (also fails when total is 0)
+
+ratio = good / (good + bad), or null when total is 0.
+
+Exit codes:
+  0  bump/reset succeeded, or report meets SLO / has no SLO
+  1  ratio below --slo, unknown command, or bad --slo
+
+Examples:
+  sli-counter good
+  sli-counter bad --store ./tmp/sli.json
+  sli-counter report --slo 0.99 --json
+  sli-counter reset</code></pre>
+      <div class="callout sans"><strong>Tip:</strong> <code>sli-counter --help</code> and <code>-h</code> print this text. <code>sli-counter --version</code> and <code>-V</code> print <code>1.0.0</code>.</div>
     </section>
     <section>
       <h2>Flags and arguments</h2>
-      <table class="sans"><thead><tr><th>Flag / argument</th><th>Meaning</th></tr></thead><tbody><tr><td><code>-h, --help</code></td><td>Print detailed usage and exit 0.</td></tr><tr><td><code>-v, --version</code></td><td>Print 1.0.0 and exit 0.</td></tr><tr><td><code>good</code></td><td>Increment good by 1 and persist.</td></tr><tr><td><code>bad</code></td><td>Increment bad by 1 and persist.</td></tr><tr><td><code>report</code></td><td>Print {good,bad,total,ratio}. ratio is null when total is 0.</td></tr></tbody></table>
+      <p>The complete flag list is in <code>sli-counter --help</code> (shown above). Human output is the default; pass <code>--json</code> where supported.</p>
     </section>
     <section>
       <h2>Exit codes</h2>
-      <table class="sans"><thead><tr><th>Code</th><th>Meaning</th></tr></thead><tbody><tr><td><code>0</code></td><td>good, bad, or report succeeded.</td></tr><tr><td><code>1</code></td><td>Unknown or missing subcommand.</td></tr></tbody></table>
+      <table class="sans"><thead><tr><th>Code</th><th>Meaning</th></tr></thead><tbody><tr><td><code>0</code></td><td>bump/reset succeeded, or report meets SLO / has no SLO.</td></tr><tr><td><code>1</code></td><td>Ratio below --slo, unknown command, or bad --slo.</td></tr></tbody></table>
     </section>
     <section>
       <h2>Configuration</h2>
-      <p>State file is <code>.sli-counter.json</code> in the current working directory: {"good":0,"bad":0}. Created on first bump.</p>
+      <p>Default store is `.sli-counter.json`. Override with `--store`.</p>
     </section>
     <section id="examples">
       <h2>Worked examples</h2>
       <h3 class="ok">Success path</h3>
-      <pre><code>sli-counter report</code></pre><pre><code>{"good":2,"bad":1,"total":3,"ratio":0.6666666666666666}</code></pre>
+      <p>Record events and report a ratio that meets the SLO.</p><pre><code>sli-counter good
+sli-counter report --slo 0.99</code></pre><pre><code>good -&gt; good 1, bad 0
+good:  1
+bad:   0
+ratio: 1.0000
+slo:   0.99  PASS</code></pre>
       <h3 class="fail">Failure path</h3>
-      <pre><code>sli-counter</code></pre><pre><code>usage: sli-counter &lt;good|bad|report&gt;</code></pre><p>Exit code is 1.</p>
+      <p>A ratio below --slo exits 1.</p><pre><code>sli-counter bad
+sli-counter report --slo 0.99</code></pre><pre><code>slo:   0.99  FAIL</code></pre><p>Exit code is 1.</p>
     </section>
   </div>
   <footer class="sans">

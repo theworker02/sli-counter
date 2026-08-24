@@ -42,9 +42,42 @@
     <section id="install">
       <h2>Install</h2>
       <p>Install globally from Git, or run with Node from a clone. There are no extra dependencies.</p>
-      <pre><code>npm install -g git+https://github.com/theworker02/sli-counter.git
-sli-counter --help
-node src/cli.js --help</code></pre>
+      <pre><code>sli-counter 1.00 (1.0.0)
+
+Usage:
+  sli-counter good [options]
+  sli-counter bad [options]
+  sli-counter report [options]
+  sli-counter reset [options]
+
+Maintain a {good,bad} store and report the success ratio.
+Default store: ./.sli-counter.json
+
+Subcommands:
+  good               Increment the success count
+  bad                Increment the failure count
+  report             Print good, bad, total, and ratio
+  reset              Set both counters back to 0
+
+Options:
+  -h, --help         Show this help and exit 0
+  -V, -v, --version  Print 1.0.0 and exit 0
+  --json             JSON output
+  --store &lt;path&gt;     Store file (relative to cwd unless absolute)
+  --slo &lt;ratio&gt;      With report: exit 1 when ratio is below this 0..1 value
+                     (also fails when total is 0)
+
+ratio = good / (good + bad), or null when total is 0.
+
+Exit codes:
+  0  bump/reset succeeded, or report meets SLO / has no SLO
+  1  ratio below --slo, unknown command, or bad --slo
+
+Examples:
+  sli-counter good
+  sli-counter bad --store ./tmp/sli.json
+  sli-counter report --slo 0.99 --json
+  sli-counter reset</code></pre>
     </section>
     <section id="usage">
       <h2>Usage</h2>
@@ -72,11 +105,17 @@ Options:
       <div class="grid-2">
         <div>
           <h3 class="ok">Success</h3>
-          <pre><code>sli-counter report</code></pre><pre><code>{"good":2,"bad":1,"total":3,"ratio":0.6666666666666666}</code></pre>
+          <p>Record events and report a ratio that meets the SLO.</p><pre><code>sli-counter good
+sli-counter report --slo 0.99</code></pre><pre><code>good -&gt; good 1, bad 0
+good:  1
+bad:   0
+ratio: 1.0000
+slo:   0.99  PASS</code></pre>
         </div>
         <div>
           <h3 class="fail">Failure</h3>
-          <pre><code>sli-counter</code></pre><pre><code>usage: sli-counter &lt;good|bad|report&gt;</code></pre><p>Exit code is 1.</p>
+          <p>A ratio below --slo exits 1.</p><pre><code>sli-counter bad
+sli-counter report --slo 0.99</code></pre><pre><code>slo:   0.99  FAIL</code></pre><p>Exit code is 1.</p>
         </div>
       </div>
     </section>

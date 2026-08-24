@@ -59,25 +59,52 @@ sli-counter report
 
 ## CLI reference
 
-Synopsis:
-
 ```text
-sli-counter <good|bad|report>
-```
+sli-counter 1.00 (1.0.0)
 
-| Flag / argument | Meaning |
-| --- | --- |
-| `-h, --help` | Print detailed usage and exit 0. |
-| `-v, --version` | Print 1.0.0 and exit 0. |
-| `good` | Increment good by 1 and persist. |
-| `bad` | Increment bad by 1 and persist. |
-| `report` | Print {good,bad,total,ratio}. ratio is null when total is 0. |
+Usage:
+  sli-counter good [options]
+  sli-counter bad [options]
+  sli-counter report [options]
+  sli-counter reset [options]
+
+Maintain a {good,bad} store and report the success ratio.
+Default store: ./.sli-counter.json
+
+Subcommands:
+  good               Increment the success count
+  bad                Increment the failure count
+  report             Print good, bad, total, and ratio
+  reset              Set both counters back to 0
+
+Options:
+  -h, --help         Show this help and exit 0
+  -V, -v, --version  Print 1.0.0 and exit 0
+  --json             JSON output
+  --store <path>     Store file (relative to cwd unless absolute)
+  --slo <ratio>      With report: exit 1 when ratio is below this 0..1 value
+                     (also fails when total is 0)
+
+ratio = good / (good + bad), or null when total is 0.
+
+Exit codes:
+  0  bump/reset succeeded, or report meets SLO / has no SLO
+  1  ratio below --slo, unknown command, or bad --slo
+
+Examples:
+  sli-counter good
+  sli-counter bad --store ./tmp/sli.json
+  sli-counter report --slo 0.99 --json
+  sli-counter reset
+```
 
 Print the same text locally:
 
 ```bash
 sli-counter --help
+sli-counter -h
 sli-counter --version
+sli-counter -V
 ```
 
 Expected version output:
@@ -88,35 +115,45 @@ Expected version output:
 
 ## Configuration
 
-State file is `.sli-counter.json` in the current working directory: {"good":0,"bad":0}. Created on first bump.
+Default store is `.sli-counter.json`. Override with `--store`.
 
 ## Exit codes
 
 | Code | Meaning |
 | --- | --- |
-| `0` | good, bad, or report succeeded. |
-| `1` | Unknown or missing subcommand. |
+| `0` | bump/reset succeeded, or report meets SLO / has no SLO. |
+| `1` | Ratio below --slo, unknown command, or bad --slo. |
 
 ## Examples
 
 ### Success path
 
+Record events and report a ratio that meets the SLO.
+
 ```bash
-sli-counter report
+sli-counter good
+sli-counter report --slo 0.99
 ```
 
-```json
-{"good":2,"bad":1,"total":3,"ratio":0.6666666666666666}
+```text
+good -> good 1, bad 0
+good:  1
+bad:   0
+ratio: 1.0000
+slo:   0.99  PASS
 ```
 
 ### Failure path
 
+A ratio below --slo exits 1.
+
 ```bash
-sli-counter
+sli-counter bad
+sli-counter report --slo 0.99
 ```
 
 ```text
-usage: sli-counter <good|bad|report>
+slo:   0.99  FAIL
 ```
 
 Exit code is 1.
