@@ -1,6 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Tool mark">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="sli-counter mark">
   <rect width="128" height="128" rx="18" fill="#0B1F33"/>
-  <polygon points="64,20 108,98 20,98" fill="none" stroke="#C9A227" stroke-width="6" stroke-linejoin="round"/>
-  <circle cx="64" cy="68" r="16" fill="#C9A227"/>
-  <rect x="58" y="36" width="12" height="22" rx="2" fill="#0B1F33"/>
+  <circle cx="64" cy="70" r="36" fill="none" stroke="#C9A227" stroke-width="10"/>
+  <path d="M64 70 L64 34 A36 36 0 1 1 33.6 88 Z" fill="#C9A227"/>
+  <circle cx="64" cy="70" r="12" fill="#0B1F33" stroke="#C9A227" stroke-width="4"/>
+  <path d="M40 28h16M72 28h16" stroke="#C9A227" stroke-width="5" stroke-linecap="round"/>
 </svg>
