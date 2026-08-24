@@ -3,31 +3,87 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>sli-counter 1.00</title>
+  <title>sli-counter  · 1.00</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <div class="wrap brand">
-      <img src="logo.svg" alt="sli-counter mark">
-      <div>
-        <h1>sli-counter</h1>
-        <p class="tag">Good/bad SLI counter · version 1.00</p>
+  <nav class="nav sans">
+    <a class="brand-lockup" href="index.html"><img src="logo.svg" alt=""> sli-counter</a>
+    <div class="links">
+      <a href="index.html#overview">Overview</a>
+      <a href="index.html#install">Install</a>
+      <a href="usage.html">Usage</a>
+      <a href="index.html#examples">Examples</a>
+    </div>
+  </nav>
+  
+  <header class="hero">
+    <img src="logo.svg" alt="sli-counter mark">
+    <div>
+      <p class="kicker sans">theworker02 · version 1.00</p>
+      <h1>sli-counter</h1>
+      <p class="lede">Maintain a {good,bad} file store and report the success ratio.</p>
+      <div class="badges sans">
+        <span class="badge">1.00 / 1.0.0</span>
+        <span class="badge">branch main</span>
+        <span class="badge">MIT</span>
+        <span class="badge">Node.js >= 18</span>
       </div>
     </div>
   </header>
-  <main class="wrap">
-    <section class="card">
-      <h2>Purpose</h2>
-      <p>Keep a local {good,bad} store. Subcommands: good, bad, and report (success ratio).</p>
-      <h2>Install</h2>
-      <pre><code>npm install -g sli-counter</code></pre>
-      <h2>Usage</h2>
-      <pre><code>sli-counter good
-sli-counter bad
-sli-counter report</code></pre>
+  <div class="wrap">
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>A local SLI does not need Prometheus. sli-counter is a two-bucket counter you can bump from scripts and report from cron.</p>
+      <p>People tracking flaky jobs, workshop pass rates, or homelab probes without standing up metrics infra.</p>
     </section>
-    <footer>MIT © 2026 theworker02 · version 1.00 (1.0.0) · navy #0B1F33 · gold #C9A227</footer>
-  </main>
+    <section id="install">
+      <h2>Install</h2>
+      <p>Install globally from Git, or run with Node from a clone. There are no extra dependencies.</p>
+      <pre><code>npm install -g git+https://github.com/theworker02/sli-counter.git
+sli-counter --help
+node src/cli.js --help</code></pre>
+    </section>
+    <section id="usage">
+      <h2>Usage</h2>
+      <p>Synopsis: <code>sli-counter &lt;good|bad|report&gt;</code></p>
+      <p>See the <a href="usage.html">full CLI reference</a> for every flag, exit code, and example.</p>
+      <pre><code>sli-counter 1.00 (1.0.0)
+
+Usage:
+  sli-counter good
+  sli-counter bad
+  sli-counter report
+  sli-counter --help
+  sli-counter --version
+
+Store: ./.sli-counter.json  {good, bad}
+
+report.ratio = good / (good + bad), or null when total is 0.
+
+Options:
+  -h, --help       Show this help
+  -v, --version    Print 1.0.0</code></pre>
+    </section>
+    <section id="examples">
+      <h2>Examples</h2>
+      <div class="grid-2">
+        <div>
+          <h3 class="ok">Success</h3>
+          <pre><code>sli-counter report</code></pre><pre><code>{"good":2,"bad":1,"total":3,"ratio":0.6666666666666666}</code></pre>
+        </div>
+        <div>
+          <h3 class="fail">Failure</h3>
+          <pre><code>sli-counter</code></pre><pre><code>usage: sli-counter &lt;good|bad|report&gt;</code></pre><p>Exit code is 1.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer class="sans">
+    MIT © 2026 theworker02 · version <strong>1.00</strong> (<code>1.0.0</code>) ·
+    navy <code>#0B1F33</code> · gold <code>#C9A227</code> ·
+    <a href="https://github.com/theworker02/sli-counter">GitHub</a> ·
+    <a href="https://thanks.dev/u/gh/theworker02">thanks.dev</a>
+  </footer>
 </body>
 </html>

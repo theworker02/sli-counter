@@ -1,7 +1,7 @@
 {
   "name": "sli-counter",
   "version": "1.0.0",
-  "description": "Count good/bad events and report the success ratio.",
+  "description": "Maintain a {good,bad} file store and report the success ratio.",
   "bin": {
     "sli-counter": "./src/cli.js"
   },
@@ -12,5 +12,26 @@
   "license": "MIT",
   "engines": {
     "node": ">=18"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theworker02/sli-counter.git"
+  },
+  "homepage": "https://theworker02.github.io/sli-counter/",
+  "bugs": {
+    "url": "https://github.com/theworker02/sli-counter/issues"
+  },
+  "files": [
+    "src",
+    "docs",
+    "LICENSE",
+    "README.md"
+  ],
+  "keywords": [
+    "sli",
+    "slo",
+    "counter",
+    "reliability",
+    "cli"
+  ]
 }
