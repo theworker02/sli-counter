@@ -1,0 +1,16 @@
+{
+  "name": "sli-counter",
+  "version": "1.0.0",
+  "description": "Count good/bad events and report the success ratio.",
+  "bin": {
+    "sli-counter": "./src/cli.js"
+  },
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
